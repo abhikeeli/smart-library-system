@@ -24,5 +24,3 @@ public class User {
 
     private int creditScore = 700; // Starting reputation
 }
-enum Role { ROLE_STUDENT, ROLE_ADMIN }
-enum Tier { BRONZE, SILVER, GOLD }
