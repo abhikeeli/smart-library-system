@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
-    private UserService userService
+    private UserService userService;
     @PostMapping("/register")
     public User register(@RequestBody User user){
         return userService.registerUser(user);
