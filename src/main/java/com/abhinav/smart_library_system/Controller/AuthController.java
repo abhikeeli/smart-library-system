@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -31,12 +32,30 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @PostMapping("/login")
-    public Map<String,String> login(@RequestBody User loginRequest){
-        Authentication authentication =authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword())
+    public Map<String, Object> login(@RequestBody User loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
-        String token = jwtUtils.generateToken(authentication.getName());
-        return Map.of("token",token);
+
+        User user = userRepo.findByusername(loginRequest.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        String token = jwtUtils.generateToken(authentication.getName(), user.getRole().name());
+
+        // Create a response map that includes user info
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        // Pass only the fields the frontend needs
+        Map<String, Object> userDetails = new HashMap<>();
+        userDetails.put("username", user.getUsername());
+        userDetails.put("role", user.getRole());
+        userDetails.put("creditScore", user.getCreditScore()); // Critical for unlocking books
+        userDetails.put("membershipTier", user.getMembershipTier());
+        userDetails.put("id",user.getId());
+
+        response.put("user", userDetails);
+
+        return response;
     }
     @PostMapping("/register")
     public User register(@RequestBody User user){

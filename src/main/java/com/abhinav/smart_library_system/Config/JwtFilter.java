@@ -38,7 +38,14 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         jwt =authHeader.substring(7);
-        username=jwtUtils.getUsernameFromToken(jwt);
+        // In src/main/java/com/abhinav.smart_library_system/Config/JwtFilter.java
+
+        try {
+            username = jwtUtils.getUsernameFromToken(jwt);
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         if(username !=null && SecurityContextHolder.getContext().getAuthentication()==null){
             UserDetails userDetails =this.userDetailsService.loadUserByUsername(username);
             if(jwtUtils.validateToken(jwt,userDetails.getUsername())){

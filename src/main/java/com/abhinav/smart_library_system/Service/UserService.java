@@ -1,5 +1,6 @@
 package com.abhinav.smart_library_system.Service;
 
+import com.abhinav.smart_library_system.Models.Role;
 import com.abhinav.smart_library_system.Models.Tier;
 import com.abhinav.smart_library_system.Models.User;
 import com.abhinav.smart_library_system.Repository.UserRepo;
@@ -15,7 +16,9 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     public User registerUser(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setCreditScore(700);
+        user.setCreditScore(700);if(user.getRole() == null) {
+            user.setRole(Role.ROLE_STUDENT);
+        }
         user.setMembershipTier(Tier.BRONZE);
         return userRepo.save(user);
     }
