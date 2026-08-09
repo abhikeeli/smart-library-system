@@ -36,10 +36,9 @@ public class BorrowingController {
     }
     @GetMapping("/my-books")
     public ResponseEntity<List<BookCopy>> getMyBorrowedBooks(Principal principal) {
-        // principal.getName() usually returns the 'username' or 'email' from your token
         String username = principal.getName();
 
-        // Fetch books using the username instead of a raw ID
+        // Fetch books using the username
         List<BookCopy> borrowedBooks = borrowingService.getBooksByUsername(username);
 
         return ResponseEntity.ok(borrowedBooks);

@@ -4,16 +4,20 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtUtils {
-    @Value("${jwt.secret}")
-    private String jwtSecret;
     private final int jwtExpirationMs = 86400000; // 24 hours
-
-    private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    private final Key key;
+    public JwtUtils(@Value("${jwt.secret}") String jwtSecret) {
+        this.key = Keys.hmacShaKeyFor(
+                jwtSecret.getBytes(StandardCharsets.UTF_8)
+        );
+    }
 
     public String generateToken(String username,String role) {
         return Jwts.builder()

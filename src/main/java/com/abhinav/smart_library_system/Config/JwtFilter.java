@@ -37,7 +37,6 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         jwt =authHeader.substring(7);
-        // In src/main/java/com/abhinav.smart_library_system/Config/JwtFilter.java
 
         try {
             username = jwtUtils.getUsernameFromToken(jwt);
