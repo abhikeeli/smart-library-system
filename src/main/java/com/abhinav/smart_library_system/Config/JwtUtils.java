@@ -2,14 +2,15 @@ package com.abhinav.smart_library_system.Config;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtUtils {
-
-    private final String jwtSecret = "your-very-secure-and-very-long-secret-key-for-library-system";
+    @Value("${jwt.secret}")
+    private String jwtSecret;
     private final int jwtExpirationMs = 86400000; // 24 hours
 
     private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
@@ -31,9 +32,7 @@ public class JwtUtils {
 
     public boolean validateToken(String token, String username) {
         try {
-            // 1. Verify the signature and format
             String tokenUsername = getUsernameFromToken(token);
-            // 2. Check if the username in token matches the DB username
             return (tokenUsername.equals(username));
         } catch (JwtException | IllegalArgumentException e) {
             return false;
