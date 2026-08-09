@@ -9,7 +9,6 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    // In a real project, this secret would be in an environment variable
     private final String jwtSecret = "your-very-secure-and-very-long-secret-key-for-library-system";
     private final int jwtExpirationMs = 86400000; // 24 hours
 
