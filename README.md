@@ -9,7 +9,8 @@ A robust RESTful API service built with **Spring Boot** and **PostgreSQL** to au
 
 ## 🌟 Key Features
 
-- **Copy-Level Physical Inventory Tracking:** Tracks every physical book unit independently using unique barcode IDs and individual status lifecycles (`AVAILABLE`, `ISSUED`, `MAINTENANCE`), preventing concurrency race conditions and enabling physical item auditing.
+- **Copy-Level Physical Inventory Tracking:** Tracks every physical book unit independently using unique barcode IDs and individual status lifecycles (`AVAILABLE`, `ISSUED`,`RESERVED`,
+  `DAMAGED`), preventing concurrency race conditions and enabling physical item auditing.
 - **Borrowing & Return Workflows:** Handles automated checkout, return, and overdue status management through transactional API services.
 - **Database Seeding & Schema Management:** Relational database setup configured with Spring Data JPA and PostgreSQL.
 - **RESTful Architecture:** Clean separation of concerns using Data Transfer Objects (DTOs), Service layers, and Controller endpoints.
@@ -20,8 +21,8 @@ A robust RESTful API service built with **Spring Boot** and **PostgreSQL** to au
 
 - **Framework:** Java 23, Spring Boot (Spring Web, Spring Data JPA)
 - **Database:** PostgreSQL
-- **Build Tool:** Maven / Gradle
-- **Documentation/Testing:** Postman / Swagger UI
+- **Build Tool:** Maven 
+- **Testing:** Postman 
 
 ---
 
@@ -29,7 +30,7 @@ A robust RESTful API service built with **Spring Boot** and **PostgreSQL** to au
 
 Unlike traditional library apps that maintain a single `available_copies` counter integer on a book record, this backend explicitly models **individual physical copies** (`BookCopy` entities) linked to a parent `Book` metadata entity.
 
-```text
+
 +------------------+         1 : N         +-------------------+
 |       Book       | --------------------> |     BookCopy      |
 |------------------|                       |-------------------|
