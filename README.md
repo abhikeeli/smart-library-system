@@ -30,7 +30,7 @@ A robust RESTful API service built with **Spring Boot** and **PostgreSQL** to au
 
 Unlike traditional library apps that maintain a single `available_copies` counter integer on a book record, this backend explicitly models **individual physical copies** (`BookCopy` entities) linked to a parent `Book` metadata entity.
 
-
+````
 +------------------+         1 : N         +-------------------+
 |       Book       | --------------------> |     BookCopy      |
 |------------------|                       |-------------------|
@@ -40,6 +40,7 @@ Unlike traditional library apps that maintain a single `available_copies` counte
 | - total copies   |                       | - isBorrowed      |
 |    available     |                       | - currentBorrower |
 +------------------+                       +-------------------+
+````
 
 **Why this matters:**
 1. **Concurrency Safety:** Prevents double-booking race conditions when multiple users attempt to borrow the same title simultaneously.
